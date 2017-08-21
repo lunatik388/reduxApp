@@ -701,34 +701,63 @@ function compose() {
 
 var _redux = __webpack_require__(8);
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 //STEP 3 define reducers
 var reducer = function reducer() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { books: [] };
     var action = arguments[1];
 
     switch (action.type) {
         case "POST_BOOK":
-            return state = action.payload;
+            // let books =  state.books.concat(action.payload);
+            // return {books};
+            return {
+                books: [].concat(_toConsumableArray(state.books), _toConsumableArray(action.payload))
+            };
+            break;
+        case "DELETE_BOOK":
+            // Create a copy of the current array of books
+            var currentBookToDelete = [].concat(_toConsumableArray(state.books));
+            // Determine at which index in books  array is the book to be deleted
+            var indexToDelete = currentBookToDelete.findIndex(function (book) {
+                return book.id === action.payload.id;
+            });
+            //use slice to remove the book at the  specified index
+            return {
+                books: [].concat(_toConsumableArray(currentBookToDelete.slice(0, indexToDelete)), _toConsumableArray(currentBookToDelete.slice(indexToDelete + 1)))
+            };
             break;
     }
     return state;
 };
-// STEP 1 create the store
+
+// STEP 1 create the storec
 var store = (0, _redux.createStore)(reducer);
 
 store.subscribe(function () {
     console.log('current state is: ', store.getState());
-    console.log('current price: ', store.getState().price);
+    //console.log('current price: ', store.getState()[1].price);
 });
 // STEP 2 create and dispatch actions
 store.dispatch({
     type: "POST_BOOK",
-    payload: {
+    payload: [{
         id: 1,
         title: 'this is the book title',
         description: 'this is the book description',
         price: 33.33
-    }
+    }, {
+        id: 2,
+        title: 'this is the second book title',
+        description: 'this is the second book description',
+        price: 50
+    }]
+});
+// DELETE a book
+store.dispatch({
+    type: "DELETE_BOOK",
+    payload: { id: 1 }
 });
 
 /***/ }),
