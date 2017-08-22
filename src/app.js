@@ -4,43 +4,36 @@ import logger from 'redux-logger';
 import reducers from './reducers/index';
 import { addToCart } from "./actions/cartActions";
 import { postBooks, deleteBooks, updateBooks } from './actions/booksActions';
+import React from 'react';
+import { render } from 'react-dom';
+import {Provider} from 'react-redux';
+
 
 // STEP 1 create the store
-const middleware = applyMiddleware(logger);
-const store = createStore(reducers, middleware);
+// const middleware = applyMiddleware(logger);
+const store = createStore(reducers);
 
 
+import BooksList from './components/pages/booksList';
 
-store.subscribe(function () {
-    console.log('current state is: ', store.getState());
-    //console.log('current price: ', store.getState()[1].price);
-})
-store.dispatch(postBooks(
-    [{
-        id: 1,
-        title: 'this is the book title',
-        description: 'this is the book description',
-        price: 33.33
-    },
-    {
-        id: 2,
-        title: 'this is the second book title',
-        description: 'this is the second book  description',
-        price: 50
-    }]
-))
-// DELETE a book
-store.dispatch(deleteBooks(
-    { id: 1 }
-))
-// UPDATE a book
-store.dispatch(updateBooks(
-    {
-        id: 2,
-        title: 'Learn React in 24h'
+render(
+    <Provider store={store}>
+         <BooksList />
+    </Provider>
+   , document.getElementById('app')
+)
 
-    }
-))
-
-// UPDATE a book
-store.dispatch(addToCart([{ id: 1 }]))
+// store.dispatch(postBooks(
+//     [{
+//         id: 1,
+//         title: 'this is the book title',
+//         description: 'this is the book description',
+//         price: 33.33
+//     },
+//     {
+//         id: 2,
+//         title: 'this is the second book title',
+//         description: 'this is the second book  description',
+//         price: 50
+//     }]
+// ))
