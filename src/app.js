@@ -6,7 +6,10 @@ import { addToCart } from "./actions/cartActions";
 import { postBooks, deleteBooks, updateBooks } from './actions/booksActions';
 import React from 'react';
 import { render } from 'react-dom';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
+
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+
 
 
 // STEP 1 create the store
@@ -16,24 +19,22 @@ const store = createStore(reducers);
 
 import BooksList from './components/pages/booksList';
 
-render(
-    <Provider store={store}>
-         <BooksList />
-    </Provider>
-   , document.getElementById('app')
-)
+import Cart from './components/pages/cart';
+import BooksForm from './components/pages/booksForm';
+import Main from './main';
 
-// store.dispatch(postBooks(
-//     [{
-//         id: 1,
-//         title: 'this is the book title',
-//         description: 'this is the book description',
-//         price: 33.33
-//     },
-//     {
-//         id: 2,
-//         title: 'this is the second book title',
-//         description: 'this is the second book  description',
-//         price: 50
-//     }]
-// ))
+
+const Routes = (
+    <Provider store={store}>
+        <Router history={browserHistory}>
+            <Route path="/" component={Main}>
+                <IndexRoute component={BooksList} />
+                <Route path="/admin" component={BooksForm} />
+                <Route path="/cart" component={Cart} />
+            </Route>
+        </Router>
+    </Provider>)
+
+render(
+    Routes, document.getElementById('app')
+);
