@@ -12,6 +12,15 @@ app.use(express.static('public'));
 app.get('*', function (req, res) {
     res.sendFile(path.resolve(__dirname, 'public', 'index.html'))
 });
+app.post('*', function (req, res) {
+    // var book = req.body;
+    // Books.create(book, function (err, books) {
+    //   if (err) {
+    //     throw err;
+    //   }
+    res.json(req.body);
+    // })
+  });
 app.listen(3000, function () {
     console.log('App web-server listening on port 3000');
 });
