@@ -26,7 +26,8 @@ class BookItem extends React.Component {
                 this.props.addToCart(book);
             } else {
                 // WE NEED TO UPDATE QUANTITY
-                this.props.updateCart(_id, 1)
+                this.props.updateCart(_id, 1,
+                    this.props.cart);
             }
         } else {
             // CART IS EMPTY
@@ -61,7 +62,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         addToCart: addToCart,
-        updateCart:updateCart
+        updateCart: updateCart
     }, dispatch)
 }
 export default connect(mapStateToProps,

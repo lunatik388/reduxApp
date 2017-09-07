@@ -2,24 +2,12 @@
 
 //STEP 3 define reducers
 export function booksReducers(state = {
-
-    books: [{
-        _id: 1,
-        title: 'this is the book title',
-        description: 'this is the book description',
-        price: 33.33
-    },
-    {
-        _id: 2,
-        title: 'this is the second book title',
-        description: 'this is the second book  description',
-        price: 50
-    }]
+    books: []
 }, action) {
     switch (action.type) {
         case "GET_BOOKS":
             return {
-                ...state, books: [...state.books]
+                ...state, books: [...action.payload]
             }
             break;
         case "POST_BOOK":
@@ -36,7 +24,7 @@ export function booksReducers(state = {
             const indexToDelete =
                 currentBookToDelete.findIndex(
                     function (book) {
-                       return book._id == action.payload;
+                        return book._id == action.payload;
                     }
                 )
             //use slice to remove the book at the  specified index
